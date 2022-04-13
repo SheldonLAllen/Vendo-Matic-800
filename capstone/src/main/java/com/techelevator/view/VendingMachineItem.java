@@ -51,8 +51,8 @@ public class VendingMachineItem {
         return isBought;
     }
 
-    public void setBought(boolean bought) {
-        isBought = bought;
+    public void buy() {
+        this.isBought = true;
     }
 }
 
