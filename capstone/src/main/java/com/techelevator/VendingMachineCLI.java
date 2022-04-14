@@ -38,32 +38,31 @@ public class VendingMachineCLI {
 
 	}
 
+	//menu logic is broken (current amount displayed and updated
+	//on the menu. menu needs to return to the purchase menu
+	//from the feedmoney menu. log.created for feeding money
+
+	//Select Product Menu
+	//log for all actions here
+	//dispsnesing print statement and change. . log
+
+
+	//finish transaction: return change current balance to 0
+	//return to main menu
+	//
 	public void run() {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				System.out.println(vendoMatic.showInventory());
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				// do purchase
-				String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+				while (true) {
+					String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
 
-				//menu logic is broken (current amount displayed and updated
-				//on the menu. menu needs to return to the purchase menu
-				//from the feedmoney menu. log.created for feeding money
-
-				//Select Product Menu
-				//log for all actions here
-				//dispsnesing print statement and change. . log
-
-
-				//finish transaction: return change current balance to 0
-				//return to main menu
-				//
-
-				if (choicePurchase.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-					// feeding money
-					String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS);
+					if (choicePurchase.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+						// feeding money
+						String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS);
 //					while(true) {
 						if (choiceFeedMoney.equals(FEED_MENU_OPTION_ONE)) {
 							vendoMatic.feedMoney(1.00);
@@ -77,14 +76,13 @@ public class VendingMachineCLI {
 							continue;
 						}
 						System.out.println("Current Money Provided: " + vendoMatic.getCurrentMoney());
-//					}
-				}
+					} else if (choice.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
+						// selecting product (by position)
+					} else if (choice.equals(PURCHASE_MENU_OPTION_EXIT)) {
+						// finish transaction
+						//giving change (going back to main menu)
+					}
 
-				else if (choice.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
-					// selecting product (by position)
-				} else if (choice.equals(PURCHASE_MENU_OPTION_EXIT)) {
-					// finish transaction
-					//giving change (going back to main menu)
 				}
 
 
@@ -94,7 +92,7 @@ public class VendingMachineCLI {
 				break;
 			}
 		}
-	}
+		}
 
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);
