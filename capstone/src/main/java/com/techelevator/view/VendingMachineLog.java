@@ -11,12 +11,10 @@ public class VendingMachineLog {
 
     public VendingMachineLog() throws Exception {}
 
-
-
-        public static void log(String message) {
+    public static void log(String message) {
         String path = "log.txt";
         Date date = new Date() ;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a ");
         File file = new File(dateFormat.format(date) + path);
 
         try (PrintWriter messageOutput = new PrintWriter(new FileOutputStream(path, true))) {

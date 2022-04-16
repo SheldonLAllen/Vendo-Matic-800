@@ -10,11 +10,13 @@ public class VendingMachine {
     // for Vending
     private ArrayList<VendingMachineItem> inventory = new ArrayList<VendingMachineItem>();
     private double currentMoney;
+    private String vendDisplay;
 
     //vending machine classes.
 
     public VendingMachine(File vendingInventoryList){
-        currentMoney = 0.00;
+        this.currentMoney = 0.00;
+        this.vendDisplay = "";
         try(Scanner displayItems = new Scanner(vendingInventoryList)){
             while(displayItems.hasNextLine()){
                 String inputLine = displayItems.nextLine();
@@ -38,7 +40,8 @@ public class VendingMachine {
         int quantity = 0;
         for(VendingMachineItem items : this.inventory) {
             if (!returnString.contains(items.getProductName())) {
-                returnString += items.getProductName();
+                //formating so that position and price are shown
+                returnString += items.getSlotLocation() + " " + items.getProductName() + " " +  String.format("%.2f", items.getPrice());
                 quantityString = items.getProductName();
                 for (VendingMachineItem itemsQuantity : this.inventory) {
                     if (quantityString.contains(itemsQuantity.getProductName()) && !itemsQuantity.isBought()) {
@@ -59,8 +62,33 @@ public class VendingMachine {
         return currentMoney;
     }
 
-    public void setCurrentMoney(double currentMoney) {
-        this.currentMoney = currentMoney;
+
+    public String[] availableSlotLocations(){
+        //uses a similar algorithm as show inventory to
+        // show list of slots in a vending machine object
+        ArrayList<String> availableSlotLocation = new ArrayList<>();
+
+        for(VendingMachineItem items : this.inventory) {
+            if (!availableSlotLocation.contains(items.getSlotLocation())) {
+                availableSlotLocation.add(items.getSlotLocation());
+            }
+        }
+        String[] vendingMachineSlots = new String[availableSlotLocation.size()];
+        for(int i = 0; i < availableSlotLocation.size(); i++){
+            vendingMachineSlots[i] =  availableSlotLocation.get(i);
+        }
+        return vendingMachineSlots;
+    }
+
+    public void vend(String slot){
+        for(VendingMachineItem items : this.inventory) {
+            if (slot.contains(items.getSlotLocation()) && !items.isBought()) {
+                items.buy();
+                this.vendDisplay = items.getVendMessage();
+                return;
+            }
+        }
+        this.vendDisplay = slot + " is sold out. Please make another selection.";
     }
 
     public ArrayList<VendingMachineItem> getInventory() {
@@ -70,6 +98,14 @@ public class VendingMachine {
     public void feedMoney(double feedAmount){
         this.currentMoney += feedAmount;
 
+    }
+
+    public String getVendDisplay() {
+        return vendDisplay;
+    }
+
+    public void setVendDisplay(String vendDisplay) {
+        this.vendDisplay = vendDisplay;
     }
 }
 

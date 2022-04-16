@@ -6,6 +6,7 @@ public class VendingMachineItem {
     private double price;
     private String type;
     private boolean isBought;
+    private String vendMessage = "";
 
     public VendingMachineItem(String slotLocation, String productName, double price, String type) {
         this.slotLocation = slotLocation;
@@ -53,6 +54,27 @@ public class VendingMachineItem {
 
     public void buy() {
         this.isBought = true;
+        dispenseItem(this.getType());
+    }
+
+    private void dispenseItem(String type) {
+        if(type.equalsIgnoreCase("Chip")){
+            this.vendMessage = "Crunch Crunch, Yum!";
+        }else if (type.equalsIgnoreCase("Candy")){
+            this.vendMessage = "Munch Munch, Yum!";
+        }else if (type.equalsIgnoreCase("Drink")){
+            this.vendMessage = "Glug Glug, Yum!";
+        }else if (type.equalsIgnoreCase("Gum")){
+            this.vendMessage = "Chew Chew, Yum!";
+        }
+    }
+
+    public String getVendMessage() {
+        return vendMessage;
+    }
+
+    public void setVendMessage(String vendMessage) {
+        this.vendMessage = vendMessage;
     }
 }
 

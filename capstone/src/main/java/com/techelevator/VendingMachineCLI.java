@@ -38,11 +38,13 @@ public class VendingMachineCLI {
 
 	}
 
-	//menu logic is broken (current amount displayed and updated
-	//on the menu. menu needs to return to the purchase menu
-	//from the feedmoney menu. log.created for feeding money
 
-	//Select Product Menu
+	//from the feedmoney menu. log.created for feeding
+	// money. need to make a menu for purchasing. allow
+	// for menu.getChoicesfromOptions(String[] vendomatic.avlableslotlocations, message)
+	// and to take slot
+
+
 	//log for all actions here
 	//dispsnesing print statement and change. . log
 
@@ -57,7 +59,8 @@ public class VendingMachineCLI {
 				System.out.println(vendoMatic.showInventory());
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				while (true) {
-					String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+					String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS,
+							"\nCurrent Money Provided: $" + String.format("%.2f", vendoMatic.getCurrentMoney()));
 
 
 					if (choicePurchase.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
@@ -65,24 +68,36 @@ public class VendingMachineCLI {
 						String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS);
 //					while(true) {
 						if (choiceFeedMoney.equals(FEED_MENU_OPTION_ONE)) {
-							vendoMatic.feedMoney(1.00);
+							vendoMatic.feedMoney(1.0);
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_TWO)) {
-							vendoMatic.feedMoney(5.00);
+							vendoMatic.feedMoney(5.0);
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_THREE)) {
-							vendoMatic.feedMoney(10.00);
+							vendoMatic.feedMoney(10.0);
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_FOUR)) {
-							vendoMatic.feedMoney(20.00);
+							vendoMatic.feedMoney(20.0);
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_FIVE)) {
 							continue;
 						}
-						System.out.println("Current Money Provided: " + vendoMatic.getCurrentMoney());
-					} else if (choice.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
+					} else if (choicePurchase.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
 						// selecting product (by position)
-					} else if (choice.equals(PURCHASE_MENU_OPTION_EXIT)) {
+						while(true){
+							//uses the menu class. sends in the slots from vendomatic and displays the inventory
+							String display = vendoMatic.showInventory() + "\n" + vendoMatic.getVendDisplay() +
+									"\nCurrent Money Provided: $" + String.format("%.2f", vendoMatic.getCurrentMoney());
+							String choiceProductSelect = (String) menu.getChoiceFromOptions(vendoMatic.availableSlotLocations(), display);
+							for(String slot : vendoMatic.availableSlotLocations()){
+								if (slot.equalsIgnoreCase(choiceProductSelect)){
+									vendoMatic.vend(slot);
+								}
+							}
+
+
+						}
+
+					} else if (choicePurchase.equals(PURCHASE_MENU_OPTION_EXIT)) {
 						// finish transaction
 						//giving change (going back to main menu)
 					}
-
 				}
 
 
