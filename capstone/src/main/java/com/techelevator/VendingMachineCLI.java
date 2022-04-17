@@ -82,9 +82,10 @@ public class VendingMachineCLI {
 						// selecting product (by position)
 						while(true){
 							//uses the menu class. sends in the slots from vendomatic and displays the inventory
-							String display = vendoMatic.showInventory() + "\n" + vendoMatic.getVendDisplay() +
+							String display = "\n" + vendoMatic.getVendDisplay() +
 									"\nCurrent Money Provided: $" + String.format("%.2f", vendoMatic.getCurrentMoney());
-							String choiceProductSelect = (String) menu.getChoiceFromOptions(vendoMatic.availableSlotLocations(), display);
+							String[] shownInventory = vendoMatic.showInventory().split("\n");
+							String choiceProductSelect = (String) menu.getChoiceFromOptions(shownInventory, display, vendoMatic.availableSlotLocations());
 							for(String slot : vendoMatic.availableSlotLocations()){
 								if (slot.equalsIgnoreCase(choiceProductSelect)){
 									vendoMatic.vend(slot);

@@ -58,6 +58,40 @@ public class VendingMachine {
         } return returnString;
     }
 
+    public String[] showInventoryAsArray() {
+        ArrayList<String> returnArray = new ArrayList<String>();
+        String returnString = "";
+        String string1 = "";
+        String quantityString = "";
+        int quantity = 0;
+        for (VendingMachineItem items : this.inventory) {
+            if (!returnString.contains(items.getProductName())) {
+                //formating so that position and price are shown
+                returnString += items.getSlotLocation() + " " + items.getProductName() + " " + String.format("%.2f", items.getPrice());
+                string1 = items.getProductName() + " " + String.format("%.2f", items.getPrice());
+                quantityString = items.getProductName();
+                for (VendingMachineItem itemsQuantity : this.inventory) {
+                    if (quantityString.contains(itemsQuantity.getProductName()) && !itemsQuantity.isBought()) {
+                        quantity++;
+                    }
+                }
+                if (quantity > 0) {
+                    returnString += " " + quantity + " remaining\n";
+                    returnArray.add(string1 + " " + quantity + " remaining");
+                    quantity = 0;
+                } else if (quantity == 0) {
+                    returnString += " SOLD OUT\n";
+                    returnArray.add(string1 + " SOLD OUT");
+
+                }
+            }
+        }String[] returnStringArray = new String[returnArray.size()];
+            for(int i = 0; i < returnArray.size(); i++) {
+                returnStringArray[i] = returnArray.get(i);
+            }
+            return returnStringArray;
+    }
+
     public double getCurrentMoney() {
         return currentMoney;
     }
