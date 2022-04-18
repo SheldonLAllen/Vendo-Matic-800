@@ -142,7 +142,7 @@ public class VendingMachine {
     public void vend(String slot) throws Exception {
         for(VendingMachineItem items : this.inventory) {
             if (slot.contains(items.getSlotLocation()) && !items.isBought()) {
-                if(items.getPrice() < this.currentMoney){
+                if(items.getPrice() <= this.currentMoney){
                     String logDisplay = items.getProductName() + " " + items.getSlotLocation() +
                             "  $" + String.format("%.2f", this.currentMoney) + "  $"
                             + String.format("%.2f", this.currentMoney - items.getPrice());
@@ -202,6 +202,22 @@ public class VendingMachine {
         this.currentMoney = 0.0;
         return;
 
+    }
+
+    public void setInventory(ArrayList<VendingMachineItem> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setCurrentMoney(double currentMoney) {
+        this.currentMoney = currentMoney;
+    }
+
+    public VendingMachineLog getLogger() {
+        return logger;
+    }
+
+    public void setLogger(VendingMachineLog logger) {
+        this.logger = logger;
     }
 }
 

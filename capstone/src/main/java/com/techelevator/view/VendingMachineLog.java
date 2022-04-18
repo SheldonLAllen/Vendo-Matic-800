@@ -18,7 +18,7 @@ public class VendingMachineLog {
         File file = new File(dateFormat.format(date) + path);
 
         try (PrintWriter messageOutput = new PrintWriter(new FileOutputStream(path, true))) {
-            messageOutput.println( dateFormat.format((date)) + message);
+            messageOutput.println( dateFormat.format(date) + message);
         }
         catch (IOException e) {
             System.err.println("File was not found");

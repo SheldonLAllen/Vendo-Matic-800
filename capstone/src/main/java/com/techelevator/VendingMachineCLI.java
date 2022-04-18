@@ -4,8 +4,7 @@ import com.techelevator.view.Menu;
 import com.techelevator.view.VendingMachine;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+
 
 public class VendingMachineCLI {
 
@@ -35,26 +34,13 @@ public class VendingMachineCLI {
 
 	public VendingMachineCLI(Menu menu) throws Exception {
 		this.menu = menu;
-
 	}
 
 
-	//from the feedmoney menu. log.created for feeding
-	// money. need to make a menu for purchasing. allow
-	// for menu.getChoicesfromOptions(String[] vendomatic.avlableslotlocations, message)
-	// and to take slot
-
-
-	//log for all actions here
-	//dispsnesing print statement and change. . log
-
-
-	//finish transaction: return change current balance to 0
-	//return to main menu
-	//
 	public void run() throws Exception {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, vendoMatic.getVendDisplay());
+			vendoMatic.setVendDisplay("");
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				System.out.println(vendoMatic.showInventory());
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
@@ -64,7 +50,7 @@ public class VendingMachineCLI {
 					if (choicePurchase.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						// feeding money
 						String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS, "");
-//					while(true) {
+
 						if (choiceFeedMoney.equals(FEED_MENU_OPTION_ONE)) {
 							vendoMatic.feedMoney(1.0);
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_TWO)) {
@@ -76,6 +62,7 @@ public class VendingMachineCLI {
 						} else if (choiceFeedMoney.equals(FEED_MENU_OPTION_FIVE)) {
 							continue;
 						}
+
 					} else if (choicePurchase.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
 						// selecting product (by position)
 						while(true) {
