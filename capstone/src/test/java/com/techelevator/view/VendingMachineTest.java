@@ -1,6 +1,5 @@
 package com.techelevator.view;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +11,10 @@ public class VendingMachineTest {
     private VendingMachine testoMatic;
     private File vendingInventoryList = new File("C:\\Users\\koopa\\Downloads\\module-1-capstone\\capstone\\vendingmachine.csv");
     String testString = "Potato Crisps";
+    double currentMoney = 200000.0;
 
     @Before
-    public void setTestoMatic() {
+    public void setTestoMatic() throws Exception {
         this.testoMatic = new VendingMachine(vendingInventoryList);
     }
 
@@ -23,12 +23,11 @@ public class VendingMachineTest {
         //Act
         for (VendingMachineItem items : testoMatic.getInventory()) {
             if (testString.equalsIgnoreCase(items.getProductName())) {
-//                System.out.println(items.getProductName());
-                items.buy();
+                items.buy(currentMoney);
             }
         }
         //Assert
-            Assert.assertEquals(true,  testoMatic.showInventory().contains("Potato Crisps SOLD OUT"));
+            Assert.assertEquals(true,  testoMatic.showInventory().contains("SOLD OUT"));
         }
     }
 

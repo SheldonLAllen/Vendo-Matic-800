@@ -33,7 +33,7 @@ public class VendingMachineCLI {
 	private VendingMachine vendoMatic = new VendingMachine(vendingInventoryList);
 
 
-	public VendingMachineCLI(Menu menu) {
+	public VendingMachineCLI(Menu menu) throws Exception {
 		this.menu = menu;
 
 	}
@@ -52,20 +52,18 @@ public class VendingMachineCLI {
 	//finish transaction: return change current balance to 0
 	//return to main menu
 	//
-	public void run() {
+	public void run() throws Exception {
 		while (true) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, vendoMatic.getVendDisplay());
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				System.out.println(vendoMatic.showInventory());
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				while (true) {
 					String choicePurchase = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS,
 							"\nCurrent Money Provided: $" + String.format("%.2f", vendoMatic.getCurrentMoney()));
-
-
 					if (choicePurchase.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						// feeding money
-						String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS);
+						String choiceFeedMoney = (String) menu.getChoiceFromOptions(FEED_MENU_OPTIONS, "");
 //					while(true) {
 						if (choiceFeedMoney.equals(FEED_MENU_OPTION_ONE)) {
 							vendoMatic.feedMoney(1.0);
@@ -80,37 +78,43 @@ public class VendingMachineCLI {
 						}
 					} else if (choicePurchase.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
 						// selecting product (by position)
-						while(true){
+						while(true) {
 							//uses the menu class. sends in the slots from vendomatic and displays the inventory
 							String display = "\n" + vendoMatic.getVendDisplay() +
 									"\nCurrent Money Provided: $" + String.format("%.2f", vendoMatic.getCurrentMoney());
-							String[] shownInventory = vendoMatic.showInventory().split("\n");
-							String choiceProductSelect = (String) menu.getChoiceFromOptions(shownInventory, display, vendoMatic.availableSlotLocations());
-							for(String slot : vendoMatic.availableSlotLocations()){
-								if (slot.equalsIgnoreCase(choiceProductSelect)){
+							String[] optionsList = (vendoMatic.showInventory(true) + "Go Back").split("\n");
+							String[] optionsPositions = new String[vendoMatic.availableSlotLocations().length + 1];
+							for (int i = 0; i < vendoMatic.availableSlotLocations().length; i++) {
+								optionsPositions[i] = vendoMatic.availableSlotLocations()[i];
+							}
+							optionsPositions[vendoMatic.availableSlotLocations().length] = "BACK";
+
+							String choiceProductSelect = (String) menu.getChoiceFromOptions(optionsList, display, optionsPositions);
+
+							for (String slot : vendoMatic.availableSlotLocations()) {
+								if (slot.equalsIgnoreCase(choiceProductSelect)) {
 									vendoMatic.vend(slot);
 								}
 							}
-
-
+							if ("back".equalsIgnoreCase(choiceProductSelect)) {
+								vendoMatic.setVendDisplay("");
+								break;
+							}
 						}
-
 					} else if (choicePurchase.equals(PURCHASE_MENU_OPTION_EXIT)) {
-						// finish transaction
-						//giving change (going back to main menu)
+						vendoMatic.giveChange();
+						break;
 					}
 				}
-
-
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				// do exit
 				System.out.println("Good Bye");
 				break;
 			}
 		}
-		}
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();

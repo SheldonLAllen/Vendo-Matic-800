@@ -14,6 +14,7 @@ public class Menu {
 
 	private PrintWriter out;
 	private Scanner in;
+	private String errorMessage;
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
@@ -53,6 +54,7 @@ public class Menu {
 	private Object getChoiceFromUserInput(Object[] options) {
 		Object choice = null;
 		String userInput = in.nextLine();
+		this.errorMessage = "";
 		//allows for the options object list to be an arralist so that it can be checked if
 		//the user input is in the options list
 		ArrayList<Object> optionsList = new ArrayList<Object>(List.of(options));
@@ -70,6 +72,7 @@ public class Menu {
 		}
 		if (choice == null) {
 			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
+			this.errorMessage = "*** " + userInput + " is not a valid option ***";
 		}
 		return choice;
 	}
@@ -119,5 +122,13 @@ public class Menu {
 		out.println(menuDisplay);
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 }

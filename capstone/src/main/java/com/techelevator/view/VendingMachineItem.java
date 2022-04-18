@@ -52,9 +52,10 @@ public class VendingMachineItem {
         return isBought;
     }
 
-    public void buy() {
+    public double buy(double currentMoney) {
         this.isBought = true;
         dispenseItem(this.getType());
+        return currentMoney - this.getPrice();
     }
 
     private void dispenseItem(String type) {
@@ -78,32 +79,3 @@ public class VendingMachineItem {
     }
 }
 
-
-//package com.techelevator.view;
-//
-//public class VendingMachineItem {
-//    private String productName;
-//    private double price;
-//
-//    public VendingMachineItem(String productName, double price) {
-//        this.productName = productName;
-//        this.price = price;
-//    }
-//
-//    public String getProductName() {
-//        return productName;
-//    }
-//
-//    public void setProductName(String productName) {
-//        this.productName = productName;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(double price) {
-//        this.price = price;
-//    }
-//}
-//
